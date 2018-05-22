@@ -170,4 +170,3 @@ LOGOUT_REDIRECT_URL = '/ykea/items'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-
