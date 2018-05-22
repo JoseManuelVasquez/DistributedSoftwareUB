@@ -12,11 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import django_heroku
-try:
-    from ykea.local_settings import *
-except ImportError:
-    # No local settings was found, skipping.
-    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&71wz)8b5%$(&++p$qyld-eql#5b=e6ha=rma(hc#n9ysm@303'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
 
 
 # Application definition
@@ -108,8 +103,14 @@ WSGI_APPLICATION = 'PracticaWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sd2018-ykea',
+        'USER': 'hsnzcschpssapo',
+        'PASSWORD': 'f0c9ae4434c9220a7e309c3f92c796459967e3d2fde4a055f4a100145d67a85f',
+        'HOST': 'ec2-54-217-217-142.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+        'CONN_MAX_AGE': 500
+
     }
 }
 
