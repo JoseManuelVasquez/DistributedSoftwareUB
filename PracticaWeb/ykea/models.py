@@ -33,12 +33,12 @@ class Item(models.Model):
     )
     item_number = models.CharField(db_index=False, max_length=10, unique=True)
     name = models.CharField(db_index=False, max_length=50)
-    description = models.TextField()
+    description = models.TextField(db_index=False)
     price = models.DecimalField(db_index=False, max_digits=8, decimal_places=2)
-    is_new = models.BooleanField()
+    is_new = models.BooleanField(db_index=False)
     size = models.CharField(db_index=False, max_length=40)
-    instructions = models.FileField(upload_to="instructions")
-    featured_photo = models.ImageField(upload_to="images")
+    instructions = models.FileField(db_index=False, upload_to="instructions")
+    featured_photo = models.ImageField(db_index=False, upload_to="images")
     category = models.CharField(db_index=False, max_length=5, choices=CATEGORIES)
     def __str__(self):
         return  ('[**NEW**]' if self.is_new else '') + "[" + self.category + "] [" + self.item_number + "] " + self.name + " - " + self.description + " (" + self.size + ") : " + str(self.price) + " €"
@@ -64,7 +64,7 @@ class Itemquantity(models.Model):
 
 class Bill(models.Model):
 
-    id_bill = models.AutoField(primary_key=True)
+    id_bill = models.AutoField(db_index=False, primary_key=True)
 
     user = models.ForeignKey(Customer, db_index=False, on_delete=models.CASCADE, related_name='id')
     linebill = models.ManyToManyField(Item, db_index=False, through='Linebill')
