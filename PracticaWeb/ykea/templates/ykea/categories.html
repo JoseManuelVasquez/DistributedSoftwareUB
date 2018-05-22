@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias</title>
+</head>
+<body>
+{% if categories %}
+    <h1><a href="{% url 'index' %}">ykea</a>/<a href="#">items</a> {% if request.user|stringformat:"s" == "AnonymousUser" %} |  <a href="{% url 'login' %}">Login</a>  |  <a href="{% url 'register' %}">Register</a> {% else %} |  {{ request.user }}  |  <a href="{% url 'logout' %}">Logout</a>{% endif %}</h1>
+    {% if request.user|stringformat:"s" != "AnonymousUser" %}<h2><a href="{% url 'shoppingcart' %}">My cart</a> - current items ({{ number_items }})</h2>{% endif %}
+    <ul>
+    {% for category in categories %}
+        <li><a href="{% url 'categories' %}{{ category.0  }}"> {{ category.0 }} </a>  -  {{ category.1 }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Categories are available.</p>
+{% endif %}
+</body>
+</html>

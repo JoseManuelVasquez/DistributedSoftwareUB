@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparator</title>
+</head>
+<body>
+<h1>Comparator</h1>
+<form id="compare" action="" method="post">
+    {% csrf_token %}
+    <div>
+        <label>Category: </label>
+        <input type="text" name="category" required/>
+    </div>
+    <div>
+        <label>Maximum: </label>
+        <input type="number" min="0" value="0" name="maximum" required/>
+        <label> €</label>
+    </div>
+    <div>
+        <label>Is New?: </label>
+        <input type="checkbox" name="new" />
+    </div>
+    <input type="submit" value="Compare" />
+</form>
+
+<br/></br>
+
+<div id="output">
+    <div class="ajaxProgress">
+        <h3>Please wait...</h3>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function compare(category, maximum, isNew) {
+
+        var requests = [];
+        var ips = [];
+        var results = [];
+
+        $('.ajaxProgress').show();
+        requests.push(
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8000/api/items/?category=' + category + '&price=' + maximum +'&new=' + isNew,
+                dataType: 'json',
+                async: true,
+                error: function(jqXHR, exception){
+                    var msg = 'asdasd';
+
+                    if(jqXHR.status === 0)
+                        msg = 'Not connected.\n Verify Network.';
+
+                    else if(jqXHR.status === 404)
+                        msg = 'Requested page not found. 404';
+
+                    else if(jqXHR.status === 500)
+                        msg = 'Internal Server Error. 500.';
+
+                    else if(jqXHR.status === 'parsererror')
+                        msg = 'Requested JSON parse failed.';
+
+                    else if(jqXHR.status === 'timeout')
+                        msg = 'Time out error.';
+
+                    else if(jqXHR.status === 'abort')
+                        msg = 'AJAX request aborted.';
+
+                    else
+                        msg = 'Uncaught Error.\n.' + jqXHR.responseText;
+
+                    alert(msg)
+                    $('.ajaxProgress').hide();
+                    $("<h3>").text(msg).appendTo("#output");
+                    console.log("Error: " + msg)
+                },
+                success: function (json) {
+                        var container = $("#output");
+
+                        $.each(json.results, function (index, item) {
+                            container.append('<img src=\"' + item.featured_photo + '\"\/></br>')
+                            $.each(item, function (key, value) {
+                                container.append(key + ": " + value + '</br>');
+                            });
+                            container.append('<br/></br>');
+                        });
+
+                        $('.ajaxProgress').hide();
+                    }
+                }
+            )
+        );
+
+        $.when.apply($, requests).done(
+            function () {
+                alert("JSON listo")
+            }
+        );
+
+    }
+
+    $('#compare').serialize();
+
+
+    $('#compare').submit(function( event ) {
+
+        // get the form data
+        var formData = {
+            'category'   : $('input[name=category]').val(),
+            'maximum'    : $('input[name=maximum]').val(),
+            'new'        : $('input[name=new]').is(":checked")
+        };
+
+        var isNew = '';
+        if(formData['new'])
+            isNew = 'yes';
+        else
+            isNew = 'no';
+
+        // Compare items
+        compare(formData['category'], formData['maximum'], isNew);
+
+        // stop the form from submitting the normal way and refreshing the page
+        event.preventDefault();
+
+    });
+</script>
+</body>
+</html>

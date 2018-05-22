@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias</title>
+</head>
+<body>
+{% if items %}
+    <h1><a href="{% url 'index' %}">ykea</a>/<a href="{% url 'categories' %}">items</a>/<a href="#">{{ category }}</a> {% if request.user|stringformat:"s" == "AnonymousUser" %} |  <a href="{% url 'login' %}">Login</a>  |  <a href="{% url 'register' %}">Register</a> {% else %} |  {{ request.user }}  |  <a href="{% url 'logout' %}">Logout</a>{% endif %}</h1>
+    {% if request.user|stringformat:"s" != "AnonymousUser" %}<h2><a href="{% url 'shoppingcart' %}">My cart</a> - current items ({{ number_items }})</h2>{% endif %}
+    <form action="{% url 'shoppingcart'%}" method="post">
+    {% csrf_token %}
+    {% for item in items %}
+        <div>
+            <label>
+                <input type= checkbox name="checkbox{{ item.item_number }}" id="checkbox{{ item.item_number }}" value="{{ item.item_number }}"/>
+                    <a href="{% url 'item_detail' item.item_number %}">
+                        {{item.name}} </a> <br>
+                        {{item.description}} <br>
+                        {{item.price}} €
+            </label>
+            <input type="number" name="amount{{ item.item_number }}", id="amount{{ item.item_number }}" min="1" value="1">
+        </div>
+    {% endfor %}
+    <input type="submit" value="Add to Shopping cart" />
+    </form>
+
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
+</body>
+</html>

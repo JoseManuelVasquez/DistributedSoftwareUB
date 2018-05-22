@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de la compra</title>
+</head>
+<body>
+{% if items %}
+    <h1><a href="{% url 'index' %}">ykea</a>/<a href="{% url 'categories' %}">items</a>/<a href="#">shoppingcart</a> {% if request.user|stringformat:"s" == "AnonymousUser" %} |  <a href="{% url 'login' %}">Login</a>  |  <a href="{% url 'register' %}">Register</a> {% else %} |  {{ request.user }}  |  <a href="{% url 'logout' %}">Logout</a>{% endif %}</h1>
+    {% if request.user|stringformat:"s" == "AnonymousUser" %}<h2><a href="{% url 'shoppingcart' %}">My cart</a> - current items ({{ number_items }})</h2>{% endif %}
+    <ul>
+    {% for item in items %}
+        <h2>{{ item.0.name }}</h2>
+        <li>Number: {{ item.0.item_number }}</li>
+        <li>Description: {{ item.description }}</li>
+        <li>Price: {{ item.0.price }}</li>
+        <li>Is new?{% if item.0.is_new|stringformat:"s" == "True" %} New!!! {% else %} Old!! {% endif %}</li>
+        <li>Size: {{ item.0.size }}</li>
+        <li>Category: {{ item.0.category }}</li>
+        <li>QUANTITY: {{ item.1 }}</li>
+        <form action="{% url 'process'%}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="delete{{ item.0.item_number }}" value="Delete" />
+        </form>
+    {% endfor %}
+    </ul>
+    <form action="{% url 'process'%}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="checkout" value="Checkout" />
+    </form>
+{% else %}
+    <p>No items in the shoppingcart. <a href="{% url 'categories' %}">Return to items</a></p>
+{% endif %}
+</body>
+</html>

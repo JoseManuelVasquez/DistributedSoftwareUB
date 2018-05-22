@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias</title>
+</head>
+<body>
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+  <h1>Create an account</h1>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+      <input type="submit" value="Create the account">
+  </form>
+{% endblock %}
+<h2>Or you can <a href="{% url 'login' %}">Login</a>, or <a href="{% url 'categories' %}">Return to Ykea</a></h2>
+</body>
+</html>

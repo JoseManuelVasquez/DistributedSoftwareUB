@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmacion de compra</title>
+</head>
+<body>
+{% if items %}
+    <h1><a href="{% url 'index' %}">ykea</a>/<a href="{% url 'categories' %}">items</a>/<a href="#">checkout</a> {% if request.user|stringformat:"s" == "AnonymousUser" %} |  <a href="{% url 'login' %}">Login</a>  |  <a href="{% url 'register' %}">Register</a> {% else %} |  {{ request.user }}  |  <a href="{% url 'logout' %}">Logout</a>{% endif %}</h1>
+    <ul>
+    {% for item in items %}
+        <h2>{{ item.0.name }}</h2>
+        <li>Price: {{ item.0.price }} €</li>
+        <li>Amount: {{ item.1 }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Total: {{ totalPrice }} €</h2>
+{% else %}
+    <p>No items are available. <a href="{% url 'categories' %}">Return to items</a></p>
+{% endif %}
+</body>
+</html>
