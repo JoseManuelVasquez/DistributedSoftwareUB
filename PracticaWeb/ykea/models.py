@@ -55,7 +55,7 @@ class Shoppingcart(models.Model):
 
 class Itemquantity(models.Model):
 
-    id_itemquantity = models.AutoField(max_length=8, primary_key=True, unique=True)
+    id_itemquantity = models.AutoField(max_length=10, primary_key=True, unique=True)
 
     shoppingcart = models.ForeignKey(Shoppingcart, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -73,10 +73,10 @@ class Bill(models.Model):
 
 class Linebill(models.Model):
 
-    id_linebill = models.AutoField(max_length=8, primary_key=True, unique=True)
+    id_linebill = models.AutoField(max_length=10, primary_key=True, unique=True)
 
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='Bill')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
     quantity = models.CharField(max_length=10, null=False)
-    subtotal = models.DecimalField(max_digits=8, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
