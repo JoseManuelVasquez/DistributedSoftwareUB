@@ -103,14 +103,8 @@ WSGI_APPLICATION = 'PracticaWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd4i5fs2s30b3um',
-        'USER': 'hsnzcschpssapo',
-        'PASSWORD': 'f0c9ae4434c9220a7e309c3f92c796459967e3d2fde4a055f4a100145d67a85f',
-        'HOST': 'ec2-54-217-217-142.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
-        'CONN_MAX_AGE': 500
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -176,3 +170,4 @@ LOGOUT_REDIRECT_URL = '/ykea/items'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
