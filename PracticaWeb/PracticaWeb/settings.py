@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import django_heroku
+try:
+    from ykea.local_settings import *
+except ImportError:
+    # No local settings was found, skipping.
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,8 +50,8 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_WHITELIST = (
     'google.com',
-    'localhost:8000',
-    '127.0.0.1:8000'
+    'localhost',
+    '127.0.0.1'
 )
 
 CORS_ALLOW_METHODS = (
@@ -103,14 +108,8 @@ WSGI_APPLICATION = 'PracticaWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sd2018-ykea',
-        'USER': 'user',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-        'CONN_MAX_AGE': 500
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -176,4 +175,3 @@ LOGOUT_REDIRECT_URL = '/ykea/items'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-
