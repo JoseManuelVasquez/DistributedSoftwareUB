@@ -31,7 +31,7 @@ class Item(models.Model):
         ("plant","Plants & gardering"),
         ("food","Food & beverages")
     )
-    item_number = models.CharField(max_length=8, unique=True)
+    item_number = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=50)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
@@ -60,7 +60,7 @@ class Itemquantity(models.Model):
     shoppingcart = models.ForeignKey(Shoppingcart, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
-    amountItem = models.CharField(max_length=3, null=False)
+    amountItem = models.CharField(max_length=10, null=False)
 
 class Bill(models.Model):
 
@@ -78,5 +78,5 @@ class Linebill(models.Model):
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='Bill')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
-    quantity = models.CharField(max_length=3, null=False)
+    quantity = models.CharField(max_length=10, null=False)
     subtotal = models.DecimalField(max_digits=8, decimal_places=2)
