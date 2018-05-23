@@ -8,7 +8,7 @@ class Customer(models.Model):
     id_customer = models.AutoField(primary_key=True)
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    money = models.DecimalField(max_digits=10, decimal_places=2)
+    money = models.DecimalField(max_digits=20, decimal_places=2)
 
 class Item(models.Model):
     CATEGORIES = (
@@ -31,10 +31,10 @@ class Item(models.Model):
         ("plant","Plants & gardering"),
         ("food","Food & beverages")
     )
-    item_number = models.CharField(max_length=10, unique=True)
+    item_number = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=20, decimal_places=2)
     is_new = models.BooleanField()
     size = models.CharField(max_length=40)
     instructions = models.FileField(upload_to="instructions")
@@ -55,12 +55,12 @@ class Shoppingcart(models.Model):
 
 class Itemquantity(models.Model):
 
-    id_itemquantity = models.AutoField(max_length=10, primary_key=True, unique=True)
+    id_itemquantity = models.AutoField(max_length=20, primary_key=True, unique=True)
 
     shoppingcart = models.ForeignKey(Shoppingcart, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
-    amountItem = models.CharField(max_length=10, null=False)
+    amountItem = models.CharField(max_length=20, null=False)
 
 class Bill(models.Model):
 
@@ -69,14 +69,14 @@ class Bill(models.Model):
     user = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='id')
     linebill = models.ManyToManyField(Item, through='Linebill')
 
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.DecimalField(max_digits=20, decimal_places=2)
 
 class Linebill(models.Model):
 
-    id_linebill = models.AutoField(max_length=10, primary_key=True, unique=True)
+    id_linebill = models.AutoField(max_length=20, primary_key=True, unique=True)
 
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='Bill')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
-    quantity = models.CharField(max_length=10, null=False)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.CharField(max_length=20, null=False)
+    subtotal = models.DecimalField(max_digits=20, decimal_places=2)
