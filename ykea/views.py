@@ -22,9 +22,12 @@ def categories(request):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
-        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+
+    try:
+        currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
+    except(KeyError, Customer.DoesNotExist):
         currentMoney = 0
 
     context = {
@@ -41,9 +44,12 @@ def items_category(request,category=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
-        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+
+    try:
+        currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
+    except(KeyError, Customer.DoesNotExist):
         currentMoney = 0
 
     context = {
@@ -61,9 +67,12 @@ def item_detail(request, item_number=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
-        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+
+    try:
+        currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
+    except(KeyError, Customer.DoesNotExist):
         currentMoney = 0
 
     context = {
@@ -77,6 +86,12 @@ def item_detail(request, item_number=""):
 @login_required
 def shoppingcart(request):
     currentCustomer = User.objects.get(username=request.user).customer
+
+    try:
+        shopping = Shoppingcart.objects.get(user=currentCustomer)
+    except(KeyError, Shoppingcart.DoesNotExist):
+        shopping = Shoppingcart(user=currentCustomer)
+    shopping.save()
 
     selectedItems = []
     amountItems = []
