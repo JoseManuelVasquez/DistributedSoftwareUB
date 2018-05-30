@@ -27,7 +27,7 @@ def categories(request):
 
     try:
         currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
-    except(KeyError, Customer.DoesNotExist):
+    except(KeyError, Customer.DoesNotExist, User.DoesNotExist):
         currentMoney = 0
 
     context = {
