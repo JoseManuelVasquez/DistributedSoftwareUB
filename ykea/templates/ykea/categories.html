@@ -7,7 +7,10 @@
 <body>
 {% if categories %}
     <h1><a href="{% url 'index' %}">ykea</a>/<a href="#">items</a> {% if request.user|stringformat:"s" == "AnonymousUser" %} |  <a href="{% url 'login' %}">Login</a>  |  <a href="{% url 'register' %}">Register</a> {% else %} |  {{ request.user }}  |  <a href="{% url 'logout' %}">Logout</a>{% endif %}</h1>
-    {% if request.user|stringformat:"s" != "AnonymousUser" %}<h2><a href="{% url 'shoppingcart' %}">My cart</a> - current items ({{ number_items }})</h2>{% endif %}
+    <h2><a href="{% url 'comparator' %}">Compare Items</a></h2>
+    {% if request.user|stringformat:"s" != "AnonymousUser" %}
+        <h2><a href="{% url 'shoppingcart' %}">My cart</a> - current items ({{ number_items }}) - current money {{ money }}</h2>
+    {% endif %}
     <ul>
     {% for category in categories %}
         <li><a href="{% url 'categories' %}{{ category.0  }}"> {{ category.0 }} </a>  -  {{ category.1 }}</li>

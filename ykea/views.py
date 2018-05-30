@@ -22,12 +22,15 @@ def categories(request):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
+        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+        currentMoney = 0
 
     context = {
         'categories': categories,
-        'number_items': number_items
+        'number_items': number_items,
+        'money': currentMoney
     }
     return render(request, 'ykea/categories.html', context)
 
@@ -38,13 +41,16 @@ def items_category(request,category=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
+        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+        currentMoney = 0
 
     context = {
         'items': items_by_category,
         'category': category,
-        'number_items': number_items
+        'number_items': number_items,
+        'money': currentMoney
     }
     return render(request, 'ykea/items_category.html', context)
 
@@ -55,12 +61,15 @@ def item_detail(request, item_number=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
+        currentMoney = currentCustomer.money
     except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
+        currentMoney = 0
 
     context = {
         'item': item,
-        'number_items': number_items
+        'number_items': number_items,
+        'money': currentMoney
     }
     return render(request, 'ykea/item_detail.html', context)
 
@@ -92,6 +101,7 @@ def shoppingcart(request):
 @login_required
 def buy(request):
     currentCustomer = User.objects.get(username=request.user).customer
+    currentMoney = currentCustomer.money
 
     try:
         shopping = Shoppingcart.objects.get(user=currentCustomer)
@@ -120,7 +130,8 @@ def buy(request):
 
     context = {
         'items': items,
-        'number_items': len(Shoppingcart.objects.get(user=currentCustomer).items.all())
+        'number_items': len(Shoppingcart.objects.get(user=currentCustomer).items.all()),
+        'money': currentMoney
     }
 
     return render(request, "ykea/shoppingcart.html", context)
