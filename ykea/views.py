@@ -38,7 +38,7 @@ def items_category(request,category=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
-    except(KeyError, User.DoesNotExist, AttributeError):
+    except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
 
     context = {
@@ -55,7 +55,7 @@ def item_detail(request, item_number=""):
     try:
         currentCustomer = User.objects.get(username=request.user).customer
         number_items = len(Shoppingcart.objects.get(user=currentCustomer).items.all())
-    except(KeyError, User.DoesNotExist, AttributeError):
+    except(KeyError, User.DoesNotExist, AttributeError, Shoppingcart.DoesNotExist):
         number_items = 0
 
     context = {
