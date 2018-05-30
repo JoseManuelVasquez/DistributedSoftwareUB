@@ -49,7 +49,7 @@ def items_category(request,category=""):
 
     try:
         currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
-    except(KeyError, Customer.DoesNotExist):
+    except(KeyError, Customer.DoesNotExist, User.DoesNotExist):
         currentMoney = 0
 
     context = {
@@ -72,7 +72,7 @@ def item_detail(request, item_number=""):
 
     try:
         currentMoney = Customer.objects.get(user=User.objects.get(username=request.user)).money
-    except(KeyError, Customer.DoesNotExist):
+    except(KeyError, Customer.DoesNotExist, User.DoesNotExist):
         currentMoney = 0
 
     context = {
